@@ -1,0 +1,4 @@
+portfolio,annual_return_%,annual_std_%,sharpe_ratio,DSP Short Term,Kotak Flexicap
+Max Sharpe,12.7565,15.6818,0.399,0.0,1.0
+Min Variance,1.9625,5.2438,-0.8653,0.896017,0.103983
+Equal Weight,6.7332,8.3764,0.0278,0.5,0.5

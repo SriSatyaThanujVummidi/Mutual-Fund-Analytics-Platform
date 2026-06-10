@@ -1,0 +1,6 @@
+scheme_code,scheme_name,current_nav,mu_annual_%,sigma_annual_%,p5_5yr,p25_5yr,p50_5yr,p75_5yr,p95_5yr,cagr_median_%,prob_double_%,chart_path
+101305,DSP Short Term Fund - Regular Plan - IDCW,12.1803,0.7871,5.2384,10.357,11.6575,12.6272,13.6587,15.4462,0.7233,0.0,E:\Thanuj_V\bluestock_mf_capstone\outputs\b3_monte_carlo_101305.png
+112090,Kotak Flexicap Fund - Growth,82.297,12.8186,15.7198,81.8877,116.7828,148.4292,187.8686,271.7296,12.5193,38.4,E:\Thanuj_V\bluestock_mf_capstone\outputs\b3_monte_carlo_112090.png
+120503,Axis ELSS Tax Saver Fund - Direct Plan - Growth Option,103.5259,,,,,,,,,0.0,E:\Thanuj_V\bluestock_mf_capstone\outputs\b3_monte_carlo_120503.png
+118989,HDFC Mid Cap Fund - Growth Option - Direct Plan,220.409,18.7755,15.802,294.3132,420.51,535.1327,678.1593,982.772,19.4116,70.1,E:\Thanuj_V\bluestock_mf_capstone\outputs\b3_monte_carlo_118989.png
+118825,Mirae Asset Large Cap Fund - Direct Plan - Growth,120.992,14.1355,15.9316,127.3627,182.507,232.7144,295.4862,429.5162,13.976,46.2,E:\Thanuj_V\bluestock_mf_capstone\outputs\b3_monte_carlo_118825.png
