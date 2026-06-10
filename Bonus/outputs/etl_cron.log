@@ -1,0 +1,18 @@
+2026-06-10 09:42:17  INFO      ============================================================
+2026-06-10 09:42:17  INFO      ETL JOB STARTED — 2026-06-10 09:42:17
+2026-06-10 09:42:17  INFO      Database not found; will be created at E:\Thanuj_V\bluestock_mf_capstone\data\bluestock_mf.db
+2026-06-10 09:42:17  INFO        Fetching  [119551]  Axis Bluechip Fund - Growth
+2026-06-10 09:42:28  INFO        Fetching  [120503]  Mirae Asset Large Cap Fund - Regular Growth
+2026-06-10 09:42:29  INFO        Fetching  [100016]  HDFC Top 100 Fund - Growth
+2026-06-10 09:42:30  WARNING   No data returned for scheme 100016
+2026-06-10 09:42:30  INFO        Fetching  [112090]  Parag Parikh Flexi Cap Fund - Regular Growth
+2026-06-10 09:42:32  INFO        Fetching  [118989]  SBI Small Cap Fund - Regular Growth
+2026-06-10 09:42:33  INFO        Fetching  [101305]  ICICI Prudential Value Discovery Fund - Growth
+2026-06-10 09:42:34  INFO        Fetching  [122639]  Kotak Emerging Equity Fund - Regular Growth
+2026-06-10 09:42:50  ERROR     HTTP error for scheme 122639: HTTPSConnectionPool(host='api.mfapi.in', port=443): Read timed out. (read timeout=15)
+2026-06-10 09:42:50  INFO        Fetching  [118825]  Nippon India Small Cap Fund - Growth
+2026-06-10 09:42:58  INFO        Fetching  [110234]  DSP Midcap Fund - Regular Growth
+2026-06-10 09:42:59  INFO        Fetching  [125354]  Canara Robeco Bluechip Equity Fund - Regular Growth
+2026-06-10 09:43:01  INFO      Upserted 25261 new rows into nav_data
+2026-06-10 09:43:01  INFO      ETL COMPLETE — funds_ok=8  funds_err=2  rows_added=25261  status=SUCCESS
+2026-06-10 09:43:01  INFO      ============================================================
