@@ -156,22 +156,3 @@ python b5_email_report.py --schedule --to recipient@example.com
 pip install requests schedule streamlit plotly matplotlib numpy pandas scipy
 ```
 
-## File Placement
-```
-bluestock_mf_capstone/
-├── scripts/
-│   ├── b1_cron_etl.py
-│   ├── b2_streamlit_app.py
-│   ├── b3_monte_carlo.py
-│   ├── b4_efficient_frontier.py
-│   └── b5_email_report.py
-├── data/
-│   └── bluestock_mf.db          ← populated by B1
-├── outputs/
-│   ├── b3_monte_carlo_*.png
-│   ├── b4_efficient_frontier.png
-│   ├── b4_portfolio_weights.csv
-│   └── b5_email_preview.html
-└── logs/
-    └── etl_cron.log
-```
