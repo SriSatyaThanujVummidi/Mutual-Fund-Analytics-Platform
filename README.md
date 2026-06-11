@@ -17,43 +17,30 @@ This capstone analyses 40 mutual fund schemes across 10 fund houses, covering eq
 ## Repository Structure
 
 ```
-bluestock-mf-capstone/
-│
+bluestock_mf_capstone/
 ├── data/
-│   ├── raw/                    # 10 original CSV datasets
-│   ├── processed/              # Cleaned CSVs from ETL
-│   └── db/
-│       └── bluestock_mf.db     # SQLite database (star schema)
-│
-├── sql/
-│   ├── schema.sql              # CREATE TABLE statements
-│   └── queries.sql             # 10 analytical SQL queries
-│
+│   ├── raw/           ← original downloaded files
+│   ├── processed/     ← cleaned, merged CSVs
+│   └── db/            ← bluestock_mf.db (SQLite)
 ├── notebooks/
 │   ├── 01_data_ingestion.ipynb
 │   ├── 02_data_cleaning.ipynb
-│   ├── 03_EDA_Analysis.ipynb
-│   ├── 04_Fund_Performance_Analytics.ipynb
-│   └── 05_Advanced_Analytics.ipynb
-│
-├── outputs/                    # Charts, CSVs, email preview
-│
-├── create_db.py                # Create SQLite DB from schema.sql
-├── data_ingestion.py           # Load and preview raw CSVs
-├── etl_pipeline.py             # Master ETL: Extract → Transform → Load
-├── load_data.py                # Load cleaned CSVs into DB
-├── compute_metrics.py          # Compute Sharpe, CAGR, Alpha, Beta, etc.
-├── run_queries.py              # Run SQL analytics queries
-├── live_nav_fetch.py           # Fetch live NAV from mfapi.in
-├── recommender.py              # Rule-based fund recommender
-│
-├── b1_cron_etl.py              # Scheduled daily NAV fetch
-├── b2_streamlit_app.py         # Interactive Streamlit dashboard
-├── b3_monte_carlo.py           # 5-year Monte Carlo NAV projection
-├── b4_efficient_frontier.py    # Markowitz efficient frontier optimisation
-├── b5_email_report.py          # Automated weekly HTML email report
-│
-├── run_pipeline.py             # ⬅ Master script — runs full pipeline
+│   ├── 03_eda_analysis.ipynb
+│   ├── 04_performance_analytics.ipynb
+│   └── 05_advanced_analytics.ipynb
+├── scripts/
+│   ├── etl_pipeline.py
+│   ├── live_nav_fetch.py
+│   ├── compute_metrics.py
+│   └── recommender.py
+├── sql/
+│   ├── schema.sql
+│   └── queries.sql
+├── dashboard/
+│   └── bluestock_mf.pbix
+├── reports/
+│   ├── Final_Report.pdf
+│   └── Presentation.pptx
 └── README.md
 ```
 
