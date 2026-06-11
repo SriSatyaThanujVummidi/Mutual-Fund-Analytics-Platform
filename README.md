@@ -18,6 +18,13 @@ This capstone analyses 40 mutual fund schemes across 10 fund houses, covering eq
 
 ```
 bluestock_mf_capstone/
+├── Bonus/
+    ├── b1_cron_etl
+    ├── b2_streamlit_app
+    ├── b3_monte_carlo
+    ├── b4_efficient_frontier
+    ├── b5_email_report
+    ├── BONUS_README
 ├── data/
 │   ├── raw/           ← original downloaded files
 │   ├── processed/     ← cleaned, merged CSVs
