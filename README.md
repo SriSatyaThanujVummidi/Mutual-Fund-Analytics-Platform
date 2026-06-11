@@ -172,15 +172,8 @@ Opens at `http://localhost:8501` with four pages:
 
 ---
 
-## Team
-
-| Name | Role |
-|---|---|
-| Thanuj | Data Engineering, ETL Pipeline, Performance Analytics |
-| Bokka Lohitha | EDA, Dashboard, Visualisation |
-| Karuturi Satya Sai Manikanta | Bonus Modules, Monte Carlo, Portfolio Optimisation |
-
-**Institution:** SCET | **Client:** Bluestock Fintech | **Data Source:** AMFI / mfapi.in
+## Created By
+ Sri Satya Thanuj Vummidi  
 
 ---
 
