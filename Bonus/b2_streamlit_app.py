@@ -39,8 +39,42 @@ st.markdown(f"""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
     html, body, [class*="css"] {{ font-family: 'Inter', sans-serif; }}
-    .stMetric {{ background: {BRAND_LIGHT}; border-radius: 10px; padding: 1rem; }}
-    .stMetric label {{ color: #555; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }}
+
+    /* Metric card styling */
+    .stMetric {{
+        background: {BRAND_LIGHT};
+        border-radius: 10px;
+        padding: 1rem;
+    }}
+
+    /* Metric label (top small text) */
+    .stMetric label,
+    [data-testid="stMetricLabel"] p {{
+        color: #333333 !important;
+        font-size: 0.78rem !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: .05em !important;
+    }}
+
+    /* Metric value (the big number) */
+    [data-testid="stMetricValue"] > div,
+    [data-testid="stMetricValue"] {{
+        color: #0D1117 !important;
+        font-size: 1.6rem !important;
+        font-weight: 700 !important;
+    }}
+
+    /* Metric delta (gain/loss line) */
+    [data-testid="stMetricDelta"] svg {{
+        display: none;
+    }}
+    [data-testid="stMetricDelta"] > div {{
+        color: #1a7a4a !important;
+        font-size: 0.9rem !important;
+        font-weight: 600 !important;
+    }}
+
     .block-container {{ padding-top: 1.5rem; }}
     h1, h2, h3 {{ color: {BRAND_BLUE}; }}
     .sidebar .sidebar-content {{ background: #f8fafc; }}
@@ -179,7 +213,7 @@ def page_overview(nav_df: pd.DataFrame, metrics_df: pd.DataFrame) -> None:
         template="plotly_white",
     )
     fig.update_layout(height=420, title_font_size=15)
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
 
     # Metrics table
     st.subheader("All Funds — Performance Summary")
@@ -194,7 +228,7 @@ def page_overview(nav_df: pd.DataFrame, metrics_df: pd.DataFrame) -> None:
             .format({"NAV (₹)": "₹{:.2f}", "CAGR %": "{:.2f}%",
                      "Volatility %": "{:.2f}%", "Sharpe": "{:.3f}",
                      "Max Drawdown %": "{:.2f}%"}),
-        use_container_width=True,
+        width='stretch',
         height=360,
     )
 
@@ -228,7 +262,7 @@ def page_nav_trends(nav_df: pd.DataFrame, sel_funds: list,
                       title="NAV (₹) Over Time", labels={"nav": "NAV (₹)", "date": ""},
                       color_discrete_sequence=PALETTE, template="plotly_white")
         fig.update_layout(height=420, legend_title="Fund")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
     with tab2:
         fig2 = px.line(norm_df, x="date", y="nav_idx", color="scheme_name",
@@ -237,7 +271,7 @@ def page_nav_trends(nav_df: pd.DataFrame, sel_funds: list,
                        color_discrete_sequence=PALETTE, template="plotly_white")
         fig2.add_hline(y=100, line_dash="dash", line_color="grey", opacity=0.5)
         fig2.update_layout(height=420, legend_title="Fund")
-        st.plotly_chart(fig2, use_container_width=True)
+        st.plotly_chart(fig2, width='stretch')
 
     # Rolling 1-year return heatmap
     st.subheader("Rolling 1-Year Returns (%)")
@@ -260,7 +294,7 @@ def page_nav_trends(nav_df: pd.DataFrame, sel_funds: list,
             title="Monthly 1-Year Rolling Return Heatmap (%)",
         )
         fig3.update_layout(height=300)
-        st.plotly_chart(fig3, use_container_width=True)
+        st.plotly_chart(fig3, width='stretch')
 
 
 def page_sip_calculator(nav_df: pd.DataFrame) -> None:
@@ -308,7 +342,7 @@ def page_sip_calculator(nav_df: pd.DataFrame) -> None:
                                  name="Total Invested", line=dict(color=BRAND_AMBER, dash="dash")))
         fig.update_layout(title="Historical SIP Simulation", template="plotly_white",
                           height=380, yaxis_title="₹ Value")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
     # Theoretical projection
     st.markdown("---")
@@ -390,7 +424,7 @@ def page_fund_recommender(metrics_df: pd.DataFrame) -> None:
         template="plotly_white",
     )
     fig.update_layout(height=320, showlegend=False)
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
 
 
 # ── Main ───────────────────────────────────────────────────────────────────────
