@@ -46,12 +46,17 @@ logging.basicConfig(
 )
 log = logging.getLogger("etl_cron")
 
+# ── Retry config ───────────────────────────────────────────────────────────────
+MAX_RETRIES   = 3       # number of attempts per fund
+RETRY_DELAY   = 5       # seconds to wait between retries
+FETCH_TIMEOUT = 30      # seconds per request (increased from 15)
+
 # ── Fund universe (scheme codes from mfapi.in) ─────────────────────────────────
 # Format: { scheme_code: "Friendly Name" }
 FUND_UNIVERSE: dict[int, str] = {
     119551: "Axis Bluechip Fund - Growth",
     120503: "Mirae Asset Large Cap Fund - Regular Growth",
-    100016: "HDFC Top 100 Fund - Growth",
+    125498: "HDFC Top 100 Fund - Regular Plan - Growth",   # fixed: 100016 was stale
     112090: "Parag Parikh Flexi Cap Fund - Regular Growth",
     118989: "SBI Small Cap Fund - Regular Growth",
     101305: "ICICI Prudential Value Discovery Fund - Growth",
@@ -71,39 +76,56 @@ def is_weekday() -> bool:
 
 
 def fetch_nav(scheme_code: int) -> pd.DataFrame | None:
-    """Pull full NAV history for one scheme from mfapi.in."""
+    """
+    Pull full NAV history for one scheme from mfapi.in.
+    Retries up to MAX_RETRIES times on timeout or connection errors.
+    """
     url = f"{MFAPI_BASE}/{scheme_code}"
-    try:
-        resp = requests.get(url, timeout=15)
-        resp.raise_for_status()
-        payload = resp.json()
 
-        meta = payload.get("meta", {})
-        rows = payload.get("data", [])
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            resp = requests.get(url, timeout=FETCH_TIMEOUT)
+            resp.raise_for_status()
+            payload = resp.json()
 
-        if not rows:
-            log.warning("No data returned for scheme %d", scheme_code)
+            meta = payload.get("meta", {})
+            rows = payload.get("data", [])
+
+            if not rows:
+                log.warning("No data returned for scheme %d", scheme_code)
+                return None
+
+            df = pd.DataFrame(rows)                          # date, nav
+            df["scheme_code"] = scheme_code
+            df["scheme_name"] = meta.get("scheme_name", FUND_UNIVERSE.get(scheme_code, "Unknown"))
+            df["fund_house"]  = meta.get("fund_house", "")
+            df["scheme_type"] = meta.get("scheme_type", "")
+            df["scheme_category"] = meta.get("scheme_category", "")
+            df["date"] = pd.to_datetime(df["date"], format="%d-%m-%Y", errors="coerce")
+            df["nav"]  = pd.to_numeric(df["nav"], errors="coerce")
+            df.dropna(subset=["date", "nav"], inplace=True)
+            df.sort_values("date", inplace=True)
+            df.reset_index(drop=True, inplace=True)
+            return df
+
+        except requests.exceptions.Timeout:
+            log.warning(
+                "Timeout for scheme %d (attempt %d/%d) — retrying in %ds …",
+                scheme_code, attempt, MAX_RETRIES, RETRY_DELAY,
+            )
+            if attempt < MAX_RETRIES:
+                sleep(RETRY_DELAY)
+            else:
+                log.error("All %d attempts timed out for scheme %d", MAX_RETRIES, scheme_code)
+                return None
+
+        except requests.RequestException as exc:
+            log.error("HTTP error for scheme %d: %s", scheme_code, exc)
             return None
 
-        df = pd.DataFrame(rows)                          # date, nav
-        df["scheme_code"] = scheme_code
-        df["scheme_name"] = meta.get("scheme_name", FUND_UNIVERSE.get(scheme_code, "Unknown"))
-        df["fund_house"]  = meta.get("fund_house", "")
-        df["scheme_type"] = meta.get("scheme_type", "")
-        df["scheme_category"] = meta.get("scheme_category", "")
-        df["date"] = pd.to_datetime(df["date"], format="%d-%m-%Y", errors="coerce")
-        df["nav"]  = pd.to_numeric(df["nav"], errors="coerce")
-        df.dropna(subset=["date", "nav"], inplace=True)
-        df.sort_values("date", inplace=True)
-        df.reset_index(drop=True, inplace=True)
-        return df
-
-    except requests.RequestException as exc:
-        log.error("HTTP error for scheme %d: %s", scheme_code, exc)
-        return None
-    except Exception as exc:
-        log.error("Unexpected error for scheme %d: %s", scheme_code, exc)
-        return None
+        except Exception as exc:
+            log.error("Unexpected error for scheme %d: %s", scheme_code, exc)
+            return None
 
 
 def upsert_to_db(df: pd.DataFrame, conn: sqlite3.Connection) -> int:
